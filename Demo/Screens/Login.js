@@ -12,7 +12,7 @@ const Login=({ navigation })=> {
   const handleSubmit=()=>{
     Axios({
       method:"post",
-      url:"http://192.168.1.4:8000/login",
+      url:"https://friends-meal.onrender.com/login",
       data:{
         email:email,
         password:password
