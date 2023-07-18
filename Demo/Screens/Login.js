@@ -30,7 +30,7 @@ const Login=({ navigation })=> {
 
   return (
     <View style={styles.container}>           
-                <Image  style={styles.image} source={require('../assets/delivery.png')}></Image>
+                <Image  style={styles.image} source={require('../assets/delivery.jpg')}></Image>
                 <View style={styles.inputView}>
                         <TextInput  autoCapitalize="none"
                           autoCompleteType="email"
