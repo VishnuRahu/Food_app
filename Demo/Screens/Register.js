@@ -70,7 +70,7 @@ const Register=({ navigation })=> {
     </View> 
        
     <Button mode="contained" onPress={handleSubmit}>
-                  Login
+                  Register
                 </Button>
       
     </View>
