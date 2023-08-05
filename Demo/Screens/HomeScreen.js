@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {View, Text, ImageBackground,StyleSheet } from 'react-native';
 import Button from '../Components/Button'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 
 const HomeScreen=({ navigation })=> {
   return (

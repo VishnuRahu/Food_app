@@ -46,11 +46,12 @@ const Login=({ navigation })=> {
                     <TextInput secureTextEntry 
                                     
                                     placeholder="Password"  
+                                    
                                     onChangeText={newText => setPassword(newText)} 
                     />
                 </View>
 
-                <Button mode="contained" onPress={handleSubmit}>
+                <Button mode="contained" onPress={()=>navigation.navigate("Admin")}>
                   Login
                 </Button>
                   
