@@ -23,7 +23,7 @@ const Register=({ navigation })=> {
         phoneNo:phoneno
       }
       }).then((res)=>{
-         alert(res.data.data);
+         alert(res.data);
       }).catch((error) => {
         console.error(error);
     });
@@ -55,7 +55,7 @@ const Register=({ navigation })=> {
     <View style={styles.inputView}>
     <TextInput  
                    
-                    placeholder="Password"  
+                    placeholder="Password" required 
                     onChangeText={newText => setPassword(newText)} 
      />
     </View >   

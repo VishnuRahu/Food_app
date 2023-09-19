@@ -18,7 +18,7 @@ const Login=({ navigation })=> {
         password:password
       }
       }).then((res)=>{
-         alert(res.data.data);
+         alert(res.data);
       }).catch((error) => {
         console.error(error);
     });
@@ -51,7 +51,7 @@ const Login=({ navigation })=> {
                     />
                 </View>
 
-                <Button mode="contained" onPress={()=>navigation.navigate("Admin")}>
+                <Button mode="contained" onPress={()=>handleSubmit()}>
                   Login
                 </Button>
                   

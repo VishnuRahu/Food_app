@@ -3,10 +3,10 @@ import { StyleSheet, View, Text, TouchableOpacity,Alert } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 
 
-showAlert =()=> {
+showAlert =(name)=> {
   Alert.alert(
    'Alert Title',
-   `The user name `,
+   `The user name is:${name}`,
    [
      {text: 'OK', onPress: () => console.log('OK Pressed')},
    ],
@@ -34,11 +34,11 @@ const Admin=({ navigation })=> {
       // fixed
       spacing={15}
       renderItem={({ item }) => (
-        <TouchableOpacity  onPress={() => this.showAlert()}>
+        <TouchableOpacity  onPress={() => this.showAlert(item.name)}>
         <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
           <Text style={styles.itemName}>{item.name}</Text>
                   </View>
-                  </TouchableOpacity>
+          </TouchableOpacity>
       )}
       
     />
