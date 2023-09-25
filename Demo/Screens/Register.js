@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View,StyleSheet } from 'react-native';
+import { View,StyleSheet, Alert } from 'react-native';
 import Axios from "axios";
 import TextInput from '../Components/TextInput';
 import Button from '../Components/Button'
@@ -15,7 +15,7 @@ const Register=({ navigation })=> {
   const handleSubmit=()=>{
     Axios({
       method:"post",
-      url:"https://friends-meal.onrender.com/adduser",
+      url:"http://192.168.1.176:8000/adduser",
       data:{
         name:name,
         email:email,
@@ -24,6 +24,7 @@ const Register=({ navigation })=> {
       }
       }).then((res)=>{
          alert(res.data);
+         navigation.navigate("Login");
       }).catch((error) => {
         console.error(error);
     });

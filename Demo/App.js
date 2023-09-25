@@ -5,6 +5,9 @@ import Login from './Screens/Login';
 import Register from './Screens/Register';
 import Food from './Screens/FoodScreen';
 import Admin from './Screens/AdminPage';
+import AddItem from './Screens/AddItem';
+import UpdateItem from './Screens/UpdateItem';
+import BasketScreen from './Screens/cartPage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
@@ -20,6 +23,9 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Admin" component={Admin} />
+        <Stack.Screen name="AddItem" component={AddItem} />
+        <Stack.Screen name="UpdateItem" component={UpdateItem} />
+        <Stack.Screen name="BasketScreen" component={BasketScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

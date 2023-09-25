@@ -4,7 +4,7 @@ import Axios from "axios";
 import TextInput from '../Components/TextInput';
 import Button from '../Components/Button'
 
-const Login=({ navigation })=> {
+const Login=({navigation})=> {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -12,13 +12,21 @@ const Login=({ navigation })=> {
   const handleSubmit=()=>{
     Axios({
       method:"post",
-      url:"https://friends-meal.onrender.com/login",
+      url:"http://192.168.1.11:8000/login",
       data:{
         email:email,
         password:password
       }
       }).then((res)=>{
-         alert(res.data);
+        alert(res.data);
+        console.log(res.data);
+         if(res.data=="admin"){
+          navigation.navigate("Admin");
+         } 
+         else if(res.data=='Successfull'){
+          navigation.navigate("Food");
+         }
+         
       }).catch((error) => {
         console.error(error);
     });

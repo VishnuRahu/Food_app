@@ -1,7 +1,6 @@
 const express=require('express');
 
-
-const {addUser,login,summa}=require('../Controllers/crudApi');
+const {addUser,login,getfood}=require('../Controllers/crudApi');
 
 const router=express.Router();
 
@@ -9,6 +8,6 @@ router.post('/addUser',addUser);
 
 router.post('/login',login);
 
-router.get('/getlo',summa);
+router.get('/getfood',getfood);
 
 module.exports=router;

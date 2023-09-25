@@ -3,16 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity,Alert } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 
 
-showAlert =(name)=> {
-  Alert.alert(
-   'Alert Title',
-   `The user name is:${name}`,
-   [
-     {text: 'OK', onPress: () => console.log('OK Pressed')},
-   ],
-   { cancelable: false }
- )
-}
+
 
 const Admin=({ navigation })=> {
   const [items, setItems] = React.useState([
@@ -22,6 +13,24 @@ const Admin=({ navigation })=> {
     { name: 'Check orders', code: '#9b59b6' },
     
   ]);
+
+  showAlert =(name)=> {
+    Alert.alert(
+     'Alert Title',
+     `The user name is:${name}`,
+     [
+       {text: 'OK', onPress: () => console.log('OK Pressed')},
+     ],
+     { cancelable: false }
+     
+   )
+   if(name=='Add Item'){
+    navigation.navigate("AddItem")  
+   }
+   else if(name=="Update Item"){
+    navigation.navigate("UpdateItem")   
+   }
+  }
 
   return (
     

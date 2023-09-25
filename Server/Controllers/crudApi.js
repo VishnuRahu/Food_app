@@ -1,4 +1,5 @@
 const schema=require('../Models/userShema');
+const food=require('../Models/foodShema');
 const bcrypt=require('bcrypt');
 
 
@@ -30,22 +31,18 @@ const addUser=async(req,res)=>{
 const login=async(req,res)=>{
     try{
         const email=req.body.email;
-        console.log(email);
-        console.log(req.body.password);
         const result=await schema.findOne({email:email});
-        console.log(result);
         if(result && await bcrypt.compare(req.body.password,result.password) ){
             console.log("INSIDE LOGIN")
-            const user={email:email,shopname:result.shopname};
-            res.json({
-                data:"successful"
-            })
-            
+            if(result.useracc=="admin"){
+                res.send('admin')
+            }
+            else{
+                res.send('Successfull');
+            } 
         }
         else{
-            res.json({
-                data:"false",
-            })
+            res.send('Unsuccessfull')
         }    
     }
     catch(e){
@@ -64,4 +61,22 @@ const summa=async(req,res)=>{
     }
 }
 
-module.exports={addUser,login,summa}
+const getfood=async(req,res)=>{
+    try{
+        const result=await food.find();
+        if(result ) {
+          res.json({
+            data:result,
+          });
+            
+        }
+        else{
+            res.send('Unsuccessfull')
+        }    
+    }
+    catch(e){
+        console.log(e);
+    }
+}
+
+module.exports={addUser,login,getfood}

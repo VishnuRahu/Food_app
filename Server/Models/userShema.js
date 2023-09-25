@@ -17,6 +17,10 @@ const userSchema=new mongoose.Schema({
     phoneNo:{
         type:Number,
         require:true
+    },
+    useracc:{
+        type:String,
+        default:'user'
     }
 })
 

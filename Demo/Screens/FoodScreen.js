@@ -1,119 +1,141 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import Button from '../Components/Button';
+import Axios from 'axios';
 import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHighlight,Image,Alert} from 'react-native';
 
 function FoodList(props) {
 
-    const foodList = [  
-        {
-            title: 'Starters',
-            foods: [
-                {
-                    foodId: 1,
-                    foodName: 'Crispy Hot Wings',
-                    rate: 'Rs:180',
-                    qty: 0
-                },
-                {
-                    foodId: 2,
-                    foodName: 'Crispy Chicken Popcorn',
-                    rate: 'Rs:50',
-                    qty: 0
-                }
-            ]
-        },
-        {
-            title: 'Starters 2',
-            foods: [
-                {
-                    foodId: 3,
-                    foodName: 'Crispy Hot Wings',
-                    rate: 'Rs:180',
-                    qty: 0
-                },
-                {
-                    foodId: 4,
-                    foodName: 'Crispy Chicken Popcorn',
-                    rate: 'Rs:50',
-                    qty: 0
-                }
-            ]
-        },
-        {
-            title: 'Starters 3',
-            foods: [
-                {
-                    foodId: 5,
-                    foodName: 'Crispy Hot Wings',
-                    rate: 'Rs:180',
-                    qty: 0
-                },
-                {
-                    foodId: 6,
-                    foodName: 'Crispy Chicken Popcorn',
-                    rate: 'Rs:50',
-                    qty: 0
-                },
-                {
-                    foodId: 7,
-                    foodName: 'Crispy Hot Wings',
-                    rate: 'Rs:180',
-                    qty: 0
-                },
-                {
-                    foodId: 8,
-                    foodName: 'Crispy Chicken Popcorn',
-                    rate: 'Rs:50',
-                    qty: 0
-                }
-            ]
-        },
-        {
-            title: 'Starters 4',
-            foods: [
-                {
-                    foodId: 9,
-                    foodName: 'Crispy Hot Wings',
-                    rate: 'Rs:180',
-                    qty: 0
-                },
-                {
-                    foodId: 10,
-                    foodName: 'Crispy Chicken Popcorn',
-                    rate: 'Rs:50',
-                    qty: 0
-                },
-                {
-                    foodId: 11,
-                    foodName: 'Crispy Hot Wings',
-                    rate: 'Rs:180',
-                    qty: 0
-                },
-                {
-                    foodId: 12,
-                    foodName: 'Crispy Chicken Popcorn',
-                    rate: 'Rs:50',
-                    qty: 0
-                }
-            ]
-        }
-    ]
+    
+    const [foodList, setFoodList] = useState([]);
+    //const [foodList, setfoodList] = useState('');
+
+    // const foodList = [  
+    //     {
+    //         title: 'Starters',
+    //         foods: [
+    //             {
+    //                 foodId: 1,
+    //                 foodName: 'Crispy Hot Wings',
+    //                 rate: 'Rs:180',
+    //                 qty: 0
+    //             },
+    //             {
+    //                 foodId: 2,
+    //                 foodName: 'Crispy Chicken Popcorn',
+    //                 rate: 'Rs:50',
+    //                 qty: 0
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         title: 'Starters 2',
+    //         foods: [
+    //             {
+    //                 foodId: 3,
+    //                 foodName: 'Crispy Hot Wings',
+    //                 rate: 'Rs:180',
+    //                 qty: 0
+    //             },
+    //             {
+    //                 foodId: 4,
+    //                 foodName: 'Crispy Chicken Popcorn',
+    //                 rate: 'Rs:50',
+    //                 qty: 0
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         title: 'Starters 3',
+    //         foods: [
+    //             {
+    //                 foodId: 5,
+    //                 foodName: 'Crispy Hot Wings',
+    //                 rate: 'Rs:180',
+    //                 qty: 0
+    //             },
+    //             {
+    //                 foodId: 6,
+    //                 foodName: 'Crispy Chicken Popcorn',
+    //                 rate: 'Rs:50',
+    //                 qty: 0
+    //             },
+    //             {
+    //                 foodId: 7,
+    //                 foodName: 'Crispy Hot Wings',
+    //                 rate: 'Rs:180',
+    //                 qty: 0
+    //             },
+    //             {
+    //                 foodId: 8,
+    //                 foodName: 'Crispy Chicken Popcorn',
+    //                 rate: 'Rs:50',
+    //                 qty: 0
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         title: 'Starters 4',
+    //         foods: [
+    //             {
+    //                 foodId: 9,
+    //                 foodName: 'Crispy Hot Wings',
+    //                 rate: 'Rs:180',
+    //                 qty: 0
+    //             },
+    //             {
+    //                 foodId: 10,
+    //                 foodName: 'Crispy Chicken Popcorn',
+    //                 rate: 'Rs:50',
+    //                 qty: 0
+    //             },
+    //             {
+    //                 foodId: 11,
+    //                 foodName: 'Crispy Hot Wings',
+    //                 rate: 'Rs:180',
+    //                 qty: 0
+    //             },
+    //             {
+    //                 foodId: 12,
+    //                 foodName: 'Crispy Chicken Popcorn',
+    //                 rate: 'Rs:50',
+    //                 qty: 0
+    //             }
+    //         ]
+    //     }
+    // ]
 
     
+    const [foodData, setFoodData] = useState([]);
+    useEffect(()=>{
+        Axios({
+            method:"get",
+            url:"http://192.168.1.11:8000/getfood",
+            }).then((res)=>{
+                setFoodData(res.data.data); 
+               //setFoodList(res.data.data);
+               //    console.log(res.data.data);
+            }).catch((error) => {
+                console.error(error);
+            });
+            
+        },[])
+    //console.log('food list from the use effect',foodList.length)
+    
     const alertfun=()=>{
-        Alert.alert('order key pressed');
+        Alert.alert('order key pressed')
+        navigation.navigate("BasketScreen")  
+        
     }
 
-    const [foodData, setFoodData] = useState(foodList);
-
+    // console.log('food data after food list', foodData)
     const incrementDecrementQty = (id, operation) => {
 
         console.log('id :'+ id + '/' + operation)
         const updateFoodQty = foodData.map( item => {
               let updateFoodList = item.foods.map(food => {
                 if(food.foodId == id){
-                    let qtyUpdate = (operation == 'increment') ? (food.qty + 1) : (food.qty - 1);
+                    let qtyUpdate = (operation == 'increment') ? (Integer.parseInt(food.qty) + 1) : (food.qty - 1);
                     if(qtyUpdate<0){
                         qtyUpdate=0;
                     }
@@ -121,7 +143,7 @@ function FoodList(props) {
                   }
                 return food;
             });
-            console.log(updateFoodList);
+            console.log('updated food list',updateFoodList);
             return {...item,foods:updateFoodList}
 
         }
