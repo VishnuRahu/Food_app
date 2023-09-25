@@ -1,122 +1,135 @@
-import { View, Text, SafeAreaView, Image, ScrollView } from "react-native";
-import React, { useEffect, useMemo, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
-import { selectRestaurant } from "../features/RestaurantSlice";
-import {
-  removeFromBasket,
-  selectBasketItems,
-  selectBasketTotal,
-} from "../features/BasketSlice";
-import { TouchableOpacity } from "react-native";
-import { XCircleIcon } from "react-native-heroicons/solid";
-import { urlFor } from "../sanity";
+import React, { useState,useEffect } from 'react';
+import { TouchableOpacity } from 'react-native';
+import Button from '../Components/Button';
+import Axios from 'axios';
+import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHighlight,Image,Alert} from 'react-native';
 
-const BasketScreen = () => {
-  const navigation = useNavigation();
-  const restaurant = useSelector(selectRestaurant);
-  const items = useSelector(selectBasketItems);
-  const basketTotal = useSelector(selectBasketTotal);
-  const [groupedItemsInBasket, setgroupedItemsInBasket] = useState([]);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const groupedItems = items.reduce((results, item) => {
-      (results[item.id] = results[item.id] || []).push(item);
-      return results;
-    }, {});
+const BasketScreen=()=>{
 
-    setgroupedItemsInBasket(groupedItems);
-  }, [items]);
+    const fooddata = [  
+            {
+                u_id: '12',
+                foods: [
+                    {
+                        cartId: 1,
+                        foodName: ['Crispy Hot Wings','Crispy Chicken Popcorn'],
+                        rate: [180,221],
+                        qty: [1,2]
+                    },
+                    {
+                        cartId: 2,
+                        foodName: ['Crispy Hot Wings','Crispy Chicken Popcorn'],
+                        rate: [180,221],
+                        qty: [1,2]
+                    },
+                ]
+            },
+        ]
 
-  console.log(groupedItemsInBasket);
+        const deletedata=()=>{
+            Alert.alert('delete clicked')
+        }
+    
+        const CardView=(props)=>{
+            return(
+                <View style={styles.card}>
+                <View style={{ flex: 1 ,flexDirection:"column"}}>
+                    
+                <Text style={{ flex: 0.3, fontSize: 18, fontWeight: '600', flexDirection: 'column' }}>
+                {props.obj.foodName.map((foodName, index) => (
+                    <Text key={index}>{foodName}:{props.obj.rate[index]}</Text>
+                    
 
-  return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1 bg-gray-100 ">
-        <View className="p-5 border-b border-[#00CCBB] bg-white shadow-xs">
-          <View>
-            <Text className="text-lg font-bold text-center">Basket</Text>
-            <Text className="text-center text-gray-400">
-              {restaurant.title}
-            </Text>
-          </View>
-
-          <TouchableOpacity
-            onPress={navigation.goBack}
-            className="rounded-full bg-gray-100 absolute top-3 right-5"
-          >
-            <XCircleIcon color="#00CCBB" height={50} width={50} />
-          </TouchableOpacity>
-        </View>
-
-        <View className="flex-row items-center space-x-4 px-4 py-3 bg-white my-5">
-          <Image
-            source={{
-              uri: "https://links.papareact.com/wru",
-            }}
-            className="h-7 w-7 bg-gray-300 p-4 rounded-full"
-          />
-          <Text className="flex-1">Deliver in 15-30 min</Text>
-          <TouchableOpacity>
-            <Text className="text-[#00CCBB]">Change</Text>
-          </TouchableOpacity>
-        </View>
-
-        <ScrollView className="divide-y divide-gray-300">
-          {Object.entries(groupedItemsInBasket).map(([key, items]) => (
-            <View
-              key={key}
-              className="flex-row items-center space-x-3 bg-white py-2 px-5"
-            >
-              <Text className="text-[#00CCBB]">{items.length} x</Text>
-              <Image
-                source={{ uri: urlFor(items[0]?.image).url() }}
-                className="h-12 w-12 rounded-full"
-              />
-              <Text className="flex-1">{items[0]?.name}</Text>
-              <Text className="text-gray-600">${items[0]?.price}</Text>
-
-              <TouchableOpacity>
-                <Text
-                  className="text-[#00CCBB] text-xs"
-                  onPress={() => dispatch(removeFromBasket({ id: key }))}
-                >
-                  Remove
+                ))}
                 </Text>
-              </TouchableOpacity>
+                    {/* <Text style={{ flex:0.3,fontSize: 18, fontWeight: '600',flexDirection:'column' }}>{
+                    props.obj.foodName+":"+props.obj.rate}</Text>  */}
+
+                    {/* <Text style={{ flex:0.3,fontSize: 18, fontWeight: '600',flexDirection:'column' }}>{
+                    props.obj.rate}</Text>            */}
+                </View>
+                <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
+                    <Button>Delete</Button>
+                </View>
+                </View>
+            );
+        }
+
+
+
+
+    return(
+        <View style={styles.parent}>
+        <ScrollView  showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+            {fooddata.map((item,index) =>
+            <View key={index}>
+                <Text>{item.u_id}</Text>
+                {item.foods.map((food,index)=>
+                        <CardView key={food.cartId} obj={food}></CardView>
+                    )}
             </View>
-          ))}
+                
+                )}
         </ScrollView>
-
-        <View className="p-5 bg-white mt-5 space-y-4">
-          <View className="flex-row justify-between">
-            <Text className="text-gray-400">Subtotal</Text>
-            <Text className="text-gray-400">$ {basketTotal}</Text>
-          </View>
-
-          <View className="flex-row justify-between">
-            <Text className="text-gray-400">Delivery Fee</Text>
-            <Text className="text-gray-400">$5.99</Text>
-          </View>
-
-          <View className="flex-row justify-between">
-            <Text>Order Total</Text>
-            <Text className="font-extrabold">${basketTotal + 5.99}</Text>
-          </View>
-
-          <TouchableOpacity
-            className="rounded-lg  bg-[#00CCBB] p-4"
-            onPress={() => navigation.navigate("PreparingOrderScreen")}
-          >
-            <Text className="text-white text-center text-lg font-bold">
-              Place Order
-            </Text>
-          </TouchableOpacity>
+        <View style={styles.but}>
+             <Button onPress={()=>alertfun()}>Place Order</Button>
         </View>
-      </View>
-    </SafeAreaView>
-  );
-};
+        </View>
+    );
+}
+
+
+const styles = StyleSheet.create({
+    textMedium: {
+        fontFamily: 'Roboto-Medium',
+      },
+      parent: {
+        flex:1,
+        alignContent:'center',
+        margin:15
+      },
+      scroll:{
+        padding:10,
+        flex:1
+      },
+      but:{
+        backgroundColor: 'grey',
+        height:'10%',
+        borderRadius:10
+      },
+      card: {
+        minHeight: '12%',
+        width: '98%',
+        borderWidth:1,
+        borderColor:'black',
+        backgroundColor: 'white',
+        justifyContent:'space-between',
+        flexDirection: 'row',
+        borderRadius: 10,
+        alignItems: 'center',
+        padding: 13,
+        margin:6
+      },
+      viewOuter : {
+        flexDirection: 'row'
+      },
+      foodname : {
+        color:'black',
+        fontSize:20
+      },
+      quantity : {
+        fontSize:20,
+        fontWeight: '700',
+        color:'black'
+      },
+      margin : {
+        margin: 10
+      },
+      result : {
+        top:20,
+        flexDirection: 'row'
+      }
+})
 
 export default BasketScreen;

@@ -18,7 +18,7 @@ const foodSchema=new mongoose.Schema({
             required:true
         },
         qty:{
-            type:String,
+            type:Number,
             require:true
         }
     }]

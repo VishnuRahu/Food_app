@@ -4,113 +4,17 @@ import Button from '../Components/Button';
 import Axios from 'axios';
 import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHighlight,Image,Alert} from 'react-native';
 
-function FoodList(props) {
+function FoodList({navigation}) {
 
     
     const [foodList, setFoodList] = useState([]);
-    //const [foodList, setfoodList] = useState('');
-
-    // const foodList = [  
-    //     {
-    //         title: 'Starters',
-    //         foods: [
-    //             {
-    //                 foodId: 1,
-    //                 foodName: 'Crispy Hot Wings',
-    //                 rate: 'Rs:180',
-    //                 qty: 0
-    //             },
-    //             {
-    //                 foodId: 2,
-    //                 foodName: 'Crispy Chicken Popcorn',
-    //                 rate: 'Rs:50',
-    //                 qty: 0
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         title: 'Starters 2',
-    //         foods: [
-    //             {
-    //                 foodId: 3,
-    //                 foodName: 'Crispy Hot Wings',
-    //                 rate: 'Rs:180',
-    //                 qty: 0
-    //             },
-    //             {
-    //                 foodId: 4,
-    //                 foodName: 'Crispy Chicken Popcorn',
-    //                 rate: 'Rs:50',
-    //                 qty: 0
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         title: 'Starters 3',
-    //         foods: [
-    //             {
-    //                 foodId: 5,
-    //                 foodName: 'Crispy Hot Wings',
-    //                 rate: 'Rs:180',
-    //                 qty: 0
-    //             },
-    //             {
-    //                 foodId: 6,
-    //                 foodName: 'Crispy Chicken Popcorn',
-    //                 rate: 'Rs:50',
-    //                 qty: 0
-    //             },
-    //             {
-    //                 foodId: 7,
-    //                 foodName: 'Crispy Hot Wings',
-    //                 rate: 'Rs:180',
-    //                 qty: 0
-    //             },
-    //             {
-    //                 foodId: 8,
-    //                 foodName: 'Crispy Chicken Popcorn',
-    //                 rate: 'Rs:50',
-    //                 qty: 0
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         title: 'Starters 4',
-    //         foods: [
-    //             {
-    //                 foodId: 9,
-    //                 foodName: 'Crispy Hot Wings',
-    //                 rate: 'Rs:180',
-    //                 qty: 0
-    //             },
-    //             {
-    //                 foodId: 10,
-    //                 foodName: 'Crispy Chicken Popcorn',
-    //                 rate: 'Rs:50',
-    //                 qty: 0
-    //             },
-    //             {
-    //                 foodId: 11,
-    //                 foodName: 'Crispy Hot Wings',
-    //                 rate: 'Rs:180',
-    //                 qty: 0
-    //             },
-    //             {
-    //                 foodId: 12,
-    //                 foodName: 'Crispy Chicken Popcorn',
-    //                 rate: 'Rs:50',
-    //                 qty: 0
-    //             }
-    //         ]
-    //     }
-    // ]
-
+    
     
     const [foodData, setFoodData] = useState([]);
     useEffect(()=>{
         Axios({
             method:"get",
-            url:"http://192.168.1.11:8000/getfood",
+            url:"http://192.168.29.188:8000/getfood",
             }).then((res)=>{
                 setFoodData(res.data.data); 
                //setFoodList(res.data.data);
@@ -130,15 +34,25 @@ function FoodList(props) {
 
     // console.log('food data after food list', foodData)
     const incrementDecrementQty = (id, operation) => {
-
-        console.log('id :'+ id + '/' + operation)
+        
+        //console.log('id :'+ id + '/' + operation)
         const updateFoodQty = foodData.map( item => {
               let updateFoodList = item.foods.map(food => {
+                let count=0;
+                let qtyUpdate=0;
                 if(food.foodId == id){
-                    let qtyUpdate = (operation == 'increment') ? (Integer.parseInt(food.qty) + 1) : (food.qty - 1);
+                    if(qtyUpdate>parseInt(food.qty)){
+                        Alert.alert("sorry stock exceeded")
+                        qtyUpdate=parseInt(food.qty);
+                    }
+                    else{
+                       qtyUpdate = (operation == 'increment') ? (count + 1) : (count - 1);    
+                    }
+                    
                     if(qtyUpdate<0){
                         qtyUpdate=0;
                     }
+                    
                     return {...food,qty:qtyUpdate};
                   }
                 return food;
@@ -162,7 +76,7 @@ function FoodList(props) {
                 </View>
                 <View style={{ flex: 0.3, flexDirection: 'row', borderWidth: 1, justifyContent: 'space-around', borderRadius: 10 }}>
                     <Text style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() => incrementDecrementQty(props.obj.foodId, 'increment')} >+</Text>
-                    <Text style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }}>{props.obj.qty}</Text>
+                    <Text style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }}>{}</Text>
                     <Text style={{ padding: 7, fontSize: 19, fontWeight: 'bold', color: 'black' }} onPress={() => incrementDecrementQty(props.obj.foodId, 'decrement')}>-</Text>
                 </View>
                 </View>
