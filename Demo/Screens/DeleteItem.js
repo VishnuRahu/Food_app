@@ -5,20 +5,16 @@ import Axios from 'axios';
 const AdminAddItem = () => {
   const [itemID, setItemID] = useState('');
   const [itemName, setItemName] = useState('');
-  const [itemPrice, setItemPrice] = useState('');
-  const [itemQuantity, setItemQuantity] = useState('');
   const [title,setTitle]=useState('');
 
-  const handleAddItem = () => {
+  const handleDeleteItem = () => {
      Axios({
-      method:"post",
-      url:"http://192.168.1.176:8000/addItem",
+      method:"delete",
+      url:"http://192.168.1.176:8000/deleteItem",
       data:{
-        foodId:itemID,
         title:title,
-        foodName:itemName,
-        rate:itemPrice,
-        qty:itemQuantity
+        foodId:itemID,
+        foodName:itemName
       }
      })
   };
@@ -50,24 +46,9 @@ const AdminAddItem = () => {
         onChangeText={(text) => setItemName(text)}
       />
 
-      <Text style={styles.label}>Item Price:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter item price"
-        value={itemPrice}
-        onChangeText={(text) => setItemPrice(text)}
-      />
-      <Text style={styles.label}>Item Quantity:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter item quantity"
-        value={itemQuantity}
-        onChangeText={(text) => setItemQuantity(text)}
-      />
-
       <Button
-        title="Add Item"
-        onPress={handleAddItem}
+        title="Delete Item"
+        onPress={handleDeleteItem}
         style={styles.button}
       />
     </View>

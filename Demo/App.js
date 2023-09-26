@@ -8,6 +8,7 @@ import Admin from './Screens/AdminPage';
 import AddItem from './Screens/AddItem';
 import UpdateItem from './Screens/UpdateItem';
 import BasketScreen from './Screens/cartPage';
+import DeleteItem from './Screens/DeleteItem';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
@@ -26,6 +27,7 @@ export default function App() {
         <Stack.Screen name="AddItem" component={AddItem} />
         <Stack.Screen name="UpdateItem" component={UpdateItem} />
         <Stack.Screen name="BasketScreen" component={BasketScreen} />
+        <Stack.Screen name="DeleteItem" component={DeleteItem} />
       </Stack.Navigator>
     </NavigationContainer>
   );

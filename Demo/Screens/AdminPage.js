@@ -30,6 +30,9 @@ const Admin=({ navigation })=> {
    else if(name=="Update Item"){
     navigation.navigate("UpdateItem")   
    }
+   else if(name=="Delete Item"){
+    navigation.navigate("DeleteItem")   
+   }
   }
 
   return (

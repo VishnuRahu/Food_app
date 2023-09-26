@@ -14,7 +14,7 @@ function FoodList({navigation}) {
     useEffect(()=>{
         Axios({
             method:"get",
-            url:"http://192.168.29.188:8000/getfood",
+            url:"http://192.168.1.176:8000/getfood",
             }).then((res)=>{
                 setFoodData(res.data.data); 
                //setFoodList(res.data.data);
@@ -76,7 +76,7 @@ function FoodList({navigation}) {
                 </View>
                 <View style={{ flex: 0.3, flexDirection: 'row', borderWidth: 1, justifyContent: 'space-around', borderRadius: 10 }}>
                     <Text style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() => incrementDecrementQty(props.obj.foodId, 'increment')} >+</Text>
-                    <Text style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }}>{}</Text>
+                    <Text style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }}>{0}</Text>
                     <Text style={{ padding: 7, fontSize: 19, fontWeight: 'bold', color: 'black' }} onPress={() => incrementDecrementQty(props.obj.foodId, 'decrement')}>-</Text>
                 </View>
                 </View>

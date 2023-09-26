@@ -38,11 +38,11 @@ const BasketScreen=()=>{
                     
                 <Text style={{ flex: 0.3, fontSize: 18, fontWeight: '600', flexDirection: 'column' }}>
                 {props.obj.foodName.map((foodName, index) => (
-                    <Text key={index}>{foodName}:{props.obj.rate[index]}</Text>
-                    
-
+                    <Text key={index}>{foodName}:{props.obj.rate[index]}{'\n'}</Text>
                 ))}
                 </Text>
+                {/* <Text style={{borderBottomColor: 'black',borderBottomWidth: StyleSheet.hairlineWidth}}/> */}
+
                     {/* <Text style={{ flex:0.3,fontSize: 18, fontWeight: '600',flexDirection:'column' }}>{
                     props.obj.foodName+":"+props.obj.rate}</Text>  */}
 

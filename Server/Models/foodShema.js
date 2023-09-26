@@ -4,8 +4,8 @@ const foodSchema=new mongoose.Schema({
        type:String,
        required:true
     },
-    food:[{
-        food_id:{
+    foods:[{
+        foodId:{
             type:String,
             required:true
         },
