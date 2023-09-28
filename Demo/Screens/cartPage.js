@@ -7,41 +7,43 @@ import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHigh
 
 const BasketScreen=()=>{
 
-  //const [fooddata,setFooddata]=useState('')
+  const [fooddata,setFooddata]=useState([]);
+
    useEffect(()=>{
     Axios({
-      method:"get",
+      method:"post",
       url:"http://192.168.29.188:8000/fetchuserCart",
       data:{
         userId:"12"
       }
     }).then((res)=>{
-      console.log(res)
+      console.log(res.data)
+      setFooddata(res.data.data);
     })
-   })
+   },[])
 
-    const fooddata = [  
-            {
-                u_id: '12',
-                foods: [
-                    {
-                        cartId: 1,
-                        foodName: ['Crispy Hot Wings','Crispy Chicken Popcorn'],
-                        rate: [180,221],
-                        qty: [1,2]
-                    },
-                    {
-                        cartId: 2,
-                        foodName: ['Crispy Hot Wings','Crispy Chicken Popcorn'],
-                        rate: [180,221],
-                        qty: [1,2]
-                    },
-                ]
-            },
-        ]
+    // const fooddata = [  
+    //         {
+    //             u_id: '12',
+    //             foods: [
+    //                 {
+    //                     cartId: 1,
+    //                     foodName: ['Crispy Hot Wings','Crispy Chicken Popcorn'],
+    //                     rate: [180,221],
+    //                     qty: [1,2]
+    //                 },
+    //                 {
+    //                     cartId: 2,
+    //                     foodName: ['Crispy Hot Wings','Crispy Chicken Popcorn'],
+    //                     rate: [180,221],
+    //                     qty: [1,2]
+    //                 },
+    //             ]
+    //         },
+    //     ]
 
         const deletedata=()=>{
-            Alert.alert('delete clicked')
+            Alert.alert('delete key pressed')
         }
     
         const CardView=(props)=>{
@@ -63,7 +65,7 @@ const BasketScreen=()=>{
                     props.obj.rate}</Text>            */}
                 </View>
                 <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
-                    <Button>Delete</Button>
+                    <Button onPress={()=>deletedata()}>Delete</Button>
                 </View>
                 </View>
             );
@@ -86,7 +88,7 @@ const BasketScreen=()=>{
                 )}
         </ScrollView>
         <View style={styles.but}>
-             <Button onPress={()=>alertfun()}>Place Order</Button>
+             <Button >Place Order</Button>
         </View>
         </View>
     );

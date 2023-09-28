@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import Button from '../Components/Button';
 import Axios from 'axios';
-import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHighlight,Image,Alert} from 'react-native';
+import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView,Image,Alert} from 'react-native';
 
 function FoodList({navigation}) {
 
@@ -14,7 +14,7 @@ function FoodList({navigation}) {
     useEffect(()=>{
         Axios({
             method:"get",
-            url:"http://192.168.1.176:8000/getfood",
+            url:"http://192.168.29.188:8000/getfood",
             }).then((res)=>{
                 setFoodData(res.data.data); 
                //setFoodList(res.data.data);

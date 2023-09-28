@@ -79,4 +79,23 @@ const foodtittle=async(req,res)=>{
     }
 }
 
-module.exports={fetchfood_category,addItem,deleteFoodItem}
+
+const updateQty=async(req,res)=>{
+    try{
+        const result=await foodSchema.updateOne(
+            { title: "Starters", "foods.foodName":"Grill_Chicken" },
+            { $set: { "foods.$.qty" : 6 } }
+         )
+         if(result){
+            res.send("updated Successfully")
+         }
+         else{
+            res.send("unSuccessfully")
+         }
+    }
+    catch(e){
+
+    }
+}
+
+module.exports={fetchfood_category,addItem,deleteFoodItem,updateQty}
