@@ -32,10 +32,8 @@ function FoodList({navigation}) {
         
     }
 
-    // console.log('food data after food list', foodData)
     const incrementDecrementQty = (id, operation) => {
         
-        //console.log('id :'+ id + '/' + operation)
         const updateFoodQty = foodData.map( item => {
               let updateFoodList = item.foods.map(food => {
                 let count=0;

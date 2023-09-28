@@ -7,6 +7,19 @@ import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHigh
 
 const BasketScreen=()=>{
 
+  //const [fooddata,setFooddata]=useState('')
+   useEffect(()=>{
+    Axios({
+      method:"get",
+      url:"http://192.168.29.188:8000/fetchuserCart",
+      data:{
+        userId:"12"
+      }
+    }).then((res)=>{
+      console.log(res)
+    })
+   })
+
     const fooddata = [  
             {
                 u_id: '12',
