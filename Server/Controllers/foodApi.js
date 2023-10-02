@@ -83,8 +83,8 @@ const foodtittle=async(req,res)=>{
 const updateQty=async(req,res)=>{
     try{
         const result=await foodSchema.updateOne(
-            { title: "Starters", "foods.foodName":"Grill_Chicken" },
-            { $set: { "foods.$.qty" : 6 } }
+            { title: req.body.title, "foods.foodName":req.body.foodName },
+            { $set: { "foods.$.qty" : req.body.qty ,"foods.$.rate":req.body.rate} }
          )
          if(result){
             res.send("updated Successfully")

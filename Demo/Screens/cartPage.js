@@ -12,7 +12,7 @@ const BasketScreen=()=>{
    useEffect(()=>{
     Axios({
       method:"post",
-      url:"http://192.168.29.188:8000/fetchuserCart",
+      url:"http://192.168.1.176:8000/fetchuserCart",
       data:{
         userId:"12"
       }

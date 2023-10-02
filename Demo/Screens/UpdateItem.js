@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet,Alert } from 'react-native';
+import Axios from 'axios';
 
 const AdminUpdateItem = () => {
-  const [itemID, setItemID] = useState('');
+  const [item, setItem] = useState('');
   const [itemQuantity, setItemQuantity] = useState('');
   const [itemPrice, setItemPrice] = useState('');
+  const [itemName, setItemName] = useState('');
 
   const handleUpdateItem = () => {
-
+    Axios({
+      method:"patch",
+      url:"http://192.168.1.176:8000/updateQty",
+      data:{
+        title:item,
+        foodName:itemName,
+        rate:itemPrice,
+        qty:itemQuantity
+      }
+     }).then((res)=>{
+      Alert.alert('Successfully updated');
+     })
    
   };
 
@@ -16,9 +29,17 @@ const AdminUpdateItem = () => {
       <Text style={styles.label}>Item ID:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter item ID"
-        value={itemID}
-        onChangeText={(text) => setItemID(text)}
+        placeholder="Enter item Category"
+        value={item}
+        onChangeText={(text) => setItem(text)}
+      />
+
+    <Text style={styles.label}>Item Name:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter item Name"
+        value={itemName}
+        onChangeText={(text) => setItemName(text)}
       />
 
       <Text style={styles.label}>Item Quantity:</Text>
