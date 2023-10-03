@@ -26,7 +26,7 @@ const AdminUpdateItem = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Item ID:</Text>
+      <Text style={styles.label}>Item Category:</Text>
       <TextInput
         style={styles.input}
         placeholder="Enter item Category"

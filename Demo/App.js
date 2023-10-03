@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './Screens/HomeScreen';
 import Login from './Screens/Login';
 import Register from './Screens/Register';
-import Food from './Screens/FoodScreen';
+import Food from './Screens/FoodList';
 import Admin from './Screens/AdminPage';
 import AddItem from './Screens/AddItem';
 import UpdateItem from './Screens/UpdateItem';
