@@ -15,7 +15,7 @@ const Register=({ navigation })=> {
   const handleSubmit=()=>{
     Axios({
       method:"post",
-      url:"http:// 192.168.1.176:8000/adduser",
+      url:"http://192.168.1.176:8000/adduser",
       data:{
         name:name,
         email:email,
@@ -54,7 +54,7 @@ const Register=({ navigation })=> {
     </View>
        
     <View style={styles.inputView}>
-    <TextInput  
+    <TextInput  secureTextEntry
                    
                     placeholder="Password" required 
                     onChangeText={newText => setPassword(newText)} 

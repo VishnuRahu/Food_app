@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
       },
       but:{
         backgroundColor: 'grey',
-        height:'10%',
+        height:'9%',
         borderRadius:10
       },
       card: {

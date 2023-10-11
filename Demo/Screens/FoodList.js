@@ -55,6 +55,7 @@ function FoodList1({navigation}) {
         }
       }
       navigation.navigate("BasketScreen")
+      //AsyncStorage.clear();
     }
 
     useEffect(()=>{
@@ -84,7 +85,7 @@ function FoodList1({navigation}) {
                 )}
         </ScrollView>
         <View style={styles.but}>
-             <Button onPress={() => submitHandler()}> Order </Button>
+             <Button onPress={() => submitHandler()}>Order</Button>
         </View>
         </View>
     );
@@ -98,7 +99,8 @@ const styles = StyleSheet.create({
       parent: {
         flex:1,
         alignContent:'center',
-        margin:15
+        margin:15,
+        maxHeight:'100%'
       },
       scroll:{
         padding:10,
@@ -110,8 +112,8 @@ const styles = StyleSheet.create({
         borderRadius:10
       },
       card: {
-        minHeight: '12%',
-        width: '98%',
+        maxHeight: '20%',
+        width: '96%',
         borderWidth:1,
         borderColor:'black',
         backgroundColor: 'white',

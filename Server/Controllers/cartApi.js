@@ -23,4 +23,28 @@ const fetchuserCart=async(req,res)=>{
     }
 }
 
-module.exports={fetchuserCart}
+const deletecart=async(req,res)=>{
+    try{
+        console.log(req.body.userId,req.body.cartId)
+        const result=await cartSchema.updateOne(
+            {userId:req.body.userId}, 
+            { $pull :{ foods : { cartId: req.body.cartId} } }
+        );
+        console.log(result)
+        if(result){
+            res.json({
+                message:"successfull"
+            })
+        }
+        else{
+            res.json({
+                message:"unsuccessfull"
+            })
+        }
+     }
+     catch(e){
+         console.log(e);
+     }
+}
+
+module.exports={fetchuserCart,deletecart}
