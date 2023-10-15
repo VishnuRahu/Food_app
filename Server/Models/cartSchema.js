@@ -6,7 +6,7 @@ const cartSchema=new mongoose.Schema({
     },
     foods:[{
         cartId:{
-            type:String,
+            type:Number,
             required:true 
         },
         foodName:[String],

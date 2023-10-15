@@ -5,9 +5,6 @@ import Axios from 'axios';
 import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHighlight,Image,Alert} from 'react-native';
 
   
-
-
-
 const BasketScreen=()=>{
 
   const [fooddata,setFooddata]=useState([]);
@@ -15,7 +12,7 @@ const BasketScreen=()=>{
    useEffect(()=>{
     Axios({
       method:"post",
-      url:"http://192.168.1.176:8000/fetchuserCart",
+      url:"http://192.168.29.188:8000/fetchuserCart",
       data:{
         userId:"12"
       }
@@ -23,22 +20,25 @@ const BasketScreen=()=>{
       console.log(res.data)
       setFooddata(res.data.data);
     })
-   },[])
+   },[fooddata])
 
     
 
-        const deleteItem=(cart)=>{
+        const deleteItem=async(cart)=>{
             Alert.alert(cart)
-            Axios({
-              method:"post",
-              url:"http://192.168.1.176:8000/fetchuserCart",
+            await Axios({
+              method:"delete",
+              url:"http://192.168.29.188:8000/deleteusercart",
               data:{
                 "userId":"12",
                 "cartId":cart
               }
+            }).then((res)=>{
+              setFooddata(res)
             })
+            //window.location.reload(false);
         }
-    
+        
         const CardView=(props)=>{
             return(
                 <View style={styles.card}>

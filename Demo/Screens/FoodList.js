@@ -61,8 +61,7 @@ function FoodList1({navigation}) {
     useEffect(()=>{
         Axios({
             method:"get",
-            // url:"http://192.168.1.176:8000/getfood",
-            url:"http://192.168.1.176:8000/getfood",
+            url:"http://192.168.29.188:8000/getfood",
             }).then((res)=>{
                 setFoodData(res.data.data); 
             }).catch((error) => {
