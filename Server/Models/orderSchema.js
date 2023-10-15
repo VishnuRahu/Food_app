@@ -9,19 +9,15 @@ const orderSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    foods_ordered:{
-        food_id:{
-            type: array,
-        },
-        quanity:{
-            type:array,
-        }
-    },
+    foods_ordered:[{
+        foodName:[String],
+        quanity:[Number]
+    }],
     total_amount:{
         type: Number,
         required:true
     },
-    payment_stauts:{
+    stauts:{
         type:String,
         require:true
     }

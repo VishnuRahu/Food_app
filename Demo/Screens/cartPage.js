@@ -8,6 +8,8 @@ import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHigh
 const BasketScreen=()=>{
 
   const [fooddata,setFooddata]=useState([]);
+  const [Itemtotal,setItem]=useState();
+
 
    useEffect(()=>{
     Axios({
@@ -20,12 +22,12 @@ const BasketScreen=()=>{
       console.log(res.data)
       setFooddata(res.data.data);
     })
-   },[fooddata])
-
+   },[])
+  
     
 
         const deleteItem=async(cart)=>{
-            Alert.alert(cart)
+            //Alert.alert(cart)
             await Axios({
               method:"delete",
               url:"http://192.168.29.188:8000/deleteusercart",
@@ -34,55 +36,77 @@ const BasketScreen=()=>{
                 "cartId":cart
               }
             }).then((res)=>{
-              setFooddata(res)
+              //console.log(res)
+              
+              const updatedData = fooddata.map((item) => {
+                if (item.foods) {
+                  const filteredFoods = item.foods.filter((food) => food.cartId !== cart);
+                  return { ...item, foods: filteredFoods };
+                }
+                return item;
+              });
+              setFooddata(updatedData);
+              
+
             })
-            //window.location.reload(false);
+            
         }
         
         const CardView=(props)=>{
-            return(
-                <View style={styles.card}>
-                <View style={{ flex: 1 ,flexDirection:"column"}}>
-                <View style={{ flex: 0.3, fontSize: 18, fontWeight: '600', flexDirection: 'column' }}>
-                <Text style={{ fontSize: 18, fontWeight: '600' }}>
-                {props.obj.foodName.map((foodName, index) => (
-                          <Text>{foodName}</Text>
+          const { foodName, qty, rate } = props.obj;
+
+            // Calculate the total for this item
+            const itemTotal = foodName.reduce((total, _, index) => {
+              return total + qty[index] * rate[index];
+            }, 0);
+          return(
+              <View style={styles.card}>
+              <View style={{ flex: 1 ,flexDirection:"column"}}>
+              <View style={{ flex: 0.3, fontSize: 18, fontWeight: '600', flexDirection: 'column' }}>
+              <Text style={{ fontSize: 18, fontWeight: '600' }}>
+              {props.obj.foodName.map((foodName, index) => (
+                        <View key={index}>
+                            <Text key={index}>{foodName}: {props.obj.qty[index]} x {props.obj.rate[index]} = {props.obj.qty[index] *props.obj.rate[index]}</Text>
+                        </View>
                       ))}
-                </Text>
-                <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
-                <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>deleteItem(props.obj.cartId)} >Delete</Button>
-                </View>
-          
+              <Text>ItemTotal:{itemTotal}</Text>
+              </Text>
+              <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
+              <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>deleteItem(props.obj.cartId)} >Delete</Button>
+              </View>
+        
+    </View>
+              
+              
+              </View>
+              </View>
+          );
+      }
+
+
+
+
+  return(
+      <View style={styles.parent}>
+      <ScrollView  showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+          {fooddata.map((item,index) =>
+          <View key={index}>
+              <Text key={index}>{item.u_id}</Text>
+              {item.foods.map((food,index)=>
+                      <CardView key={food.cartId} obj={food}></CardView>
+                  )}
+          </View>
+              
+              )}
+      </ScrollView>
+      <View style={styles.but}>
+           <Button >Place Order</Button>
       </View>
-                
-                
-                </View>
-                </View>
-            );
-        }
+      </View>
+  );
+              }
+        
 
-
-
-
-    return(
-        <View style={styles.parent}>
-        <ScrollView  showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-            {fooddata.map((item,index) =>
-            <View key={index}>
-                <Text>{item.u_id}</Text>
-                {item.foods.map((food,index)=>
-                        <CardView key={food.cartId} obj={food}></CardView>
-                    )}
-            </View>
-                
-                )}
-        </ScrollView>
-        <View style={styles.but}>
-             <Button >Place Order</Button>
-        </View>
-        </View>
-    );
-}
 
 
 const styles = StyleSheet.create({

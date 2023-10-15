@@ -8,17 +8,20 @@ const Food = ({ item }) => {
 
     const [count, setCount] = useState(0);
   
-    const countHandler = (available, value) => {
+    const countHandler = async (available, value) => {
   
       if(value < 0){
         alert('invalid quantity')
         return false;
+      } else if( value === 0){
+        setCount(value)
+        await AsyncStorage.removeItem(`${item.foodName}`);
       } else if(value > available){
         alert('stock not available')
         return false;
       } else {
         setCount(value)
-        AsyncStorage.setItem(`${item.foodName}`, `${value}`);
+        await AsyncStorage.setItem(`${item.foodName}`, `${value}`);
         return true;
       }
     }
@@ -46,16 +49,27 @@ function FoodList1({navigation}) {
     const [foodData, setFoodData] = useState([]);
 
     const submitHandler = async () => {
+
+      let orderedItems = [];
       for(let i = 0; i<foodData.length; i++){
         let items = foodData[i].foods;
         for(let j = 0; j < items.length; j++){
           let available =  items[j].qty;
           let ordered = await AsyncStorage.getItem(`${items[j].foodName}`);
-          alert(`${items[j].foodName} - available : ${available} , ordered : ${JSON.stringify(ordered)}`)
+          if(ordered){
+            orderedItems.push({
+              foodName: items[j].foodName,
+              available_qty: available,
+              ordered_qty: ordered
+            })
+            //AsyncStorage.removeItem(`${items[j].foodName}`);
+          }
         }
       }
-      navigation.navigate("BasketScreen")
+      alert(JSON.stringify({ data : orderedItems}))
+      //AsyncStorage.removeItem(`${items[j].foodName}`);
       //AsyncStorage.clear();
+      navigation.navigate("BasketScreen")
     }
 
     useEffect(()=>{
@@ -69,6 +83,14 @@ function FoodList1({navigation}) {
             });
             
     },[])
+
+    useEffect(() => {
+      setFoodData([...foodData]);
+
+      return( async () => {
+        await AsyncStorage.clear()
+      })
+    }, [])
 
     return (
         <View style={styles.parent}>
