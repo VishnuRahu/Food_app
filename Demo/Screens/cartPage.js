@@ -5,22 +5,28 @@ import Axios from 'axios';
 import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHighlight,Image,Alert} from 'react-native';
 
   
-const BasketScreen=()=>{
+const BasketScreen=({navigation})=>{
 
   const [fooddata,setFooddata]=useState([]);
   const [Itemtotal,setItem]=useState();
 
 
+  const submitHandler = async () => {
+      Alert.alert("your order has been placed Successfully")
+      navigation.navigate("order")
+  }  
+
    useEffect(()=>{
     Axios({
       method:"post",
-      url:"http://192.168.29.188:8000/fetchuserCart",
+      url:"http://192.168.1.176:8000/fetchuserCart",
       data:{
         userId:"12"
       }
     }).then((res)=>{
       console.log(res.data)
       setFooddata(res.data.data);
+      console.log('fooddate',fooddata)
     })
    },[])
   
@@ -30,7 +36,7 @@ const BasketScreen=()=>{
             //Alert.alert(cart)
             await Axios({
               method:"delete",
-              url:"http://192.168.29.188:8000/deleteusercart",
+              url:"http://192.168.1.176:8000/deleteusercart",
               data:{
                 "userId":"12",
                 "cartId":cart
@@ -53,11 +59,11 @@ const BasketScreen=()=>{
         }
         
         const CardView=(props)=>{
-          const { foodName, qty, rate } = props.obj;
+          const { foodName, quantity, rate } = props.obj;
 
             // Calculate the total for this item
             const itemTotal = foodName.reduce((total, _, index) => {
-              return total + qty[index] * rate[index];
+              return total + quantity[index] * rate[index];
             }, 0);
           return(
               <View style={styles.card}>
@@ -66,10 +72,12 @@ const BasketScreen=()=>{
               <Text style={{ fontSize: 18, fontWeight: '600' }}>
               {props.obj.foodName.map((foodName, index) => (
                         <View key={index}>
-                            <Text key={index}>{foodName}: {props.obj.qty[index]} x {props.obj.rate[index]} = {props.obj.qty[index] *props.obj.rate[index]}</Text>
+                            <Text key={index}>{foodName}: {props.obj.quantity[index]} x {props.obj.rate[index]} = {props.obj.quantity[index] *props.obj.rate[index]}</Text>
+                            <Text>{"\n"}</Text>
                         </View>
+                        
                       ))}
-              <Text>ItemTotal:{itemTotal}</Text>
+              <Text>{'\n\n'}ItemTotal : {itemTotal}</Text>
               </Text>
               <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
               <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>deleteItem(props.obj.cartId)} >Delete</Button>
@@ -91,7 +99,6 @@ const BasketScreen=()=>{
       <ScrollView  showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
           {fooddata.map((item,index) =>
           <View key={index}>
-              <Text key={index}>{item.u_id}</Text>
               {item.foods.map((food,index)=>
                       <CardView key={food.cartId} obj={food}></CardView>
                   )}
@@ -100,7 +107,7 @@ const BasketScreen=()=>{
               )}
       </ScrollView>
       <View style={styles.but}>
-           <Button >Place Order</Button>
+           <Button onPress={() => submitHandler()}>Place Order</Button>
       </View>
       </View>
   );

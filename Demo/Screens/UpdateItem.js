@@ -11,7 +11,7 @@ const AdminUpdateItem = () => {
   const handleUpdateItem = () => {
     Axios({
       method:"patch",
-      url:"http://192.168.1.176:8000/updateQty",
+      url:"http:// 192.168.1.176:8000/updateQty",
       data:{
         title:item,
         foodName:itemName,

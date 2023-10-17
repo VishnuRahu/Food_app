@@ -6,8 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Food = ({ item }) => {
 
-    const [count, setCount] = useState(0);
-  
+    const [count, setCount] = useState(0);  
     const countHandler = async (available, value) => {
   
       if(value < 0){
@@ -51,6 +50,9 @@ function FoodList1({navigation}) {
     const submitHandler = async () => {
 
       let orderedItems = [];
+      let foodsordered=[];
+      let qty=[];
+      let rate=[];
       for(let i = 0; i<foodData.length; i++){
         let items = foodData[i].foods;
         for(let j = 0; j < items.length; j++){
@@ -63,10 +65,29 @@ function FoodList1({navigation}) {
               ordered_qty: ordered
             })
             //AsyncStorage.removeItem(`${items[j].foodName}`);
+            foodsordered.push(items[j].foodName);
+            qty.push(parseInt(ordered));
+            rate.push(items[j].rate)
+            console.log('foodsordered',foodsordered);
+            console.log('qty',qty);
+            console.log('rate',rate)
           }
         }
       }
-      alert(JSON.stringify({ data : orderedItems}))
+      await Axios({
+        method:"post",
+        url:"http://192.168.1.176:8000/adduserCart",
+        data:{
+          userId:"12",
+          cartId:5,
+          foodName:foodsordered,
+          rate:rate,
+          qty:qty
+        }
+      }).then((res)=>{
+        console.log(res.data)
+      })
+      //alert(JSON.stringify({ data : orderedItems}))
       //AsyncStorage.removeItem(`${items[j].foodName}`);
       //AsyncStorage.clear();
       navigation.navigate("BasketScreen")
@@ -75,7 +96,7 @@ function FoodList1({navigation}) {
     useEffect(()=>{
         Axios({
             method:"get",
-            url:"http://192.168.29.188:8000/getfood",
+            url:"http://192.168.1.176:8000/getfood",
             }).then((res)=>{
                 setFoodData(res.data.data); 
             }).catch((error) => {

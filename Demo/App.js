@@ -9,6 +9,7 @@ import AddItem from './Screens/AddItem';
 import UpdateItem from './Screens/UpdateItem';
 import BasketScreen from './Screens/cartPage';
 import DeleteItem from './Screens/DeleteItem';
+import orderPage from './Screens/orderPage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
@@ -28,6 +29,7 @@ export default function App() {
         <Stack.Screen name="UpdateItem" component={UpdateItem} />
         <Stack.Screen name="BasketScreen" component={BasketScreen} />
         <Stack.Screen name="DeleteItem" component={DeleteItem} />
+        <Stack.Screen name="order" component={orderPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

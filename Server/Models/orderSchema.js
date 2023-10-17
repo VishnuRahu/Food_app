@@ -1,25 +1,27 @@
 const mongoose=require('mongoose');
 const orderSchema=new mongoose.Schema({
     
-    order_id:{
+    userId:{
         type:String,
         required:true
     },
-    user_id:{
-        type:String,
-        required:true
-    },
-    foods_ordered:[{
+    foodsOrdered:[{
+        orderId:{
+            type:Number,
+            required:true 
+        },
         foodName:[String],
-        quanity:[Number]
+        rate:[Number],
+        quantity:[Number],
+        payment:{
+            type:String,
+            required:true
+        },
+        totalAmount:{
+            type: Number,
+            required:true
+        }
     }],
-    total_amount:{
-        type: Number,
-        required:true
-    },
-    stauts:{
-        type:String,
-        require:true
-    }
+    
 })
 module.exports=new mongoose.model('orders',orderSchema);

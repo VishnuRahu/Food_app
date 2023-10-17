@@ -3,7 +3,7 @@ const express=require('express');
 const {addUser,login,getfood}=require('../Controllers/crudApi');
 const {fetchfood_category,addItem,deleteFoodItem,updateQty}=require('../Controllers/foodApi');
 
-const {fetchuserCart,deletecart}=require('../Controllers/cartApi');
+const {fetchuserCart,deletecart,fetchuserorder,adduserCart}=require('../Controllers/cartApi');
 
 const router=express.Router();
 
@@ -24,5 +24,9 @@ router.post('/fetchuserCart',fetchuserCart);
 router.patch('/updateqty',updateQty);
 
 router.delete('/deleteusercart',deletecart);
+
+router.post('/fetchuserorder',fetchuserorder);
+
+router.post('/adduserCart',adduserCart)
 
 module.exports=router;
