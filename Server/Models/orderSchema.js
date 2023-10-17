@@ -7,7 +7,7 @@ const orderSchema=new mongoose.Schema({
     },
     foodsOrdered:[{
         orderId:{
-            type:Number,
+            type:String,
             required:true 
         },
         foodName:[String],

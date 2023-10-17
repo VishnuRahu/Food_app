@@ -116,5 +116,50 @@ const fetchalluserorder=async(req,res)=>{
     }
 }
 
+const updateUserpayment=async(req,res)=>{
+    try{
+        console.log('inside update')
+        const result=await orderSchema.updateOne(
+            { userId: req.body.userId, "foodsOrdered.orderId":req.body.orderId},
+            { $set: { "foodsOrdered.$.payment" : req.body.change} }
+         )
+         if(result){
+            res.json({
+                message:"Success"
+            })
+         }
+        else{
+            res.json({
+                message:"failure"
+            })
+        }
+    }catch(e){
 
-module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart,fetchalluserorder}
+    }
+}
+
+
+const deleteUserorder=async(req,res)=>{
+    try{
+        console.log('inside dalete')
+        const result=await orderSchema.updateOne(
+            { userId: req.body.userId},
+            { $pull: { foodsOrdered:{orderId : req.body.orderId} }}
+         )
+         if(result){
+            res.json({
+                message:"Success"
+            })
+         }
+        else{
+            res.json({
+                message:"failure"
+            })
+        }
+    }catch(e){
+
+    }
+}
+
+
+module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart,fetchalluserorder,updateUserpayment,deleteUserorder}

@@ -14,7 +14,7 @@ const BasketScreen=({navigation})=>{
    useEffect(()=>{
     Axios({
       method:"get",
-      url:"http://192.168.1.176:8000/fetchalluserorder",
+      url:"http://192.168.29.188:8000/fetchalluserorder",
       
     }).then((res)=>{
       console.log(res.data)
@@ -27,37 +27,42 @@ const BasketScreen=({navigation})=>{
 
         const deleteItem=async(orderId,id)=>{
             //Alert.alert(cart)
-            // await Axios({
-            //   method:"delete",
-            //   url:"http://192.168.1.176:8000/deleteusercart",
-            //   data:{
-            //     "userId":"12",
-            //     "cartId":cart
-            //   }
-            // }).then((res)=>{
-            //   //console.log(res)
-              
-            // const updatedData = fooddata.map((item) => {
-            //     if (item.foods) {
-            //       const filteredFoods = item.foods.filter((food) => food.cartId !== cart);
-            //       return { ...item, foods: filteredFoods };
-            //     }
-            //     return item;
-            //   });
-            //   setFooddata(updatedData);
-              
+            console.log(orderId,id)
+          //   await Axios({
+          //     method:"delete",
+          //     url:"http://192.168.1.176:8000/deleteUserorder",
+          //     data:{
+          //       "userId":"12",
+          //       "orderId":""
+          //     }
+          //   }).then((res)=>{
+          //     console.log(res)
+          //  })
+        }
 
-            // })
-            Alert.alert(orderId)
-            Alert.alert(id)
+        const  updateItem=()=>{
+          Axios({
+            method:"patch",
+            url:"http://192.168.29.188:8000/updateUserpayment",
+            data:{
+               userId:id,
+               orderId:orderId
+            }
+          }).then((res)=>{
+            console.log(res.data)
+            Alert.alert("Successfully Updaed")
+            setFooddata()
+          })
         }
         
         const CardView=(props)=>{
-          
+           
+          const id=props.id
           return(
               <View style={styles.card}>
               <View style={{ flex: 1 ,flexDirection:"column"}}>
-              <View style={{ flex: 0.3, fontSize: 18, fontWeight: '600', flexDirection: 'column' }}>
+              <View style={{ flex: 0.3, fontSize: 18, fontWeight: '60', flexDirection: 'column' }}>
+              <Text style={{fontSize:25,textAlign:"center"}}>Order Id : {props.obj.orderId}{'\n'}</Text>
               <Text style={{ fontSize: 18, fontWeight: '600' }}>
               {props.obj.foodName.map((foodName, index) => (
                         <View key={index}>
@@ -66,12 +71,13 @@ const BasketScreen=({navigation})=>{
                         </View>
                         
                       ))}
-              <Text>{'\n\n'}ItemTotal :{props.obj.totalAmount}</Text>
+              <Text>{'\n'}ItemTotal :{props.obj.totalAmount}</Text>
               <Text>{'\n\n'}Payment :{props.obj.payment}</Text>
+              <Text>{'\n\n'}</Text>
               </Text>
               <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
-              <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>deleteItem(props.obj.orderId,props.id.userId)} >Delete</Button>
-              <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>updateItem(props.obj.orderId,props.id.userId)} >Update to Paid</Button>
+              <Button style={{  fontSize: 18, fontWeight: 'bold',backgroundColor:'red',width:"40%",height:"60%",margin:"5%" }} onPress={() =>deleteItem(props.obj.orderId,id)} >Delete</Button>
+              <Button style={{  fontSize: 18, fontWeight: 'bold',backgroundColor:'green',width:"40%",height:"60%",color:'black'}} onPress={() =>updateItem(props.obj.orderId,id)} >Paid</Button>
               </View>
         
     </View>
@@ -134,7 +140,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         padding: 13,
-        margin:6
+        margin:3
       },
       viewOuter : {
         flexDirection: 'row'
