@@ -19,7 +19,7 @@ const BasketScreen=({navigation})=>{
       else{
         console.log(fooddata)
         try {
-          const res = await Axios({ method:"post", url:"http://192.168.1.105:8000/add-order", data:fooddata });
+          const res = await Axios({ method:"post", url:"http://192.168.29.188:8000/add-order", data:fooddata });
           console.log('res :', res);
         } catch (error) {
           console.log('error :', error);
@@ -34,7 +34,7 @@ const BasketScreen=({navigation})=>{
    useEffect(()=>{
     Axios({
       method:"post",
-      url:"http://192.168.1.105:8000/fetchuserCart",
+      url:"http://192.168.29.188:8000/fetchuserCart",
       data:{
         userId:"12"
       }
@@ -51,7 +51,7 @@ const deleteItem=async(cart)=>{
     //Alert.alert(cart)
     await Axios({
       method:"delete",
-      url:"http://192.168.1.105:8000/deleteusercart",
+      url:"http://192.168.29.188:8000/deleteusercart",
       data:{
         "userId":"12",
         "cartId":cart
@@ -97,7 +97,7 @@ const CardView=(props)=>{
           </Text>
 
           <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
-            <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>deleteItem(props.obj.cartId)} >Delete</Button>
+            <Button style={{  fontSize: 18, fontWeight: 'bold',backgroundColor:'red',width:"40%",height:"60%",margin:"5%" }} onPress={() =>deleteItem(props.obj.cartId)} >Delete</Button>
           </View>
         </View> 
       </View>

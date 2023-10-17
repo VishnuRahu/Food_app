@@ -14,9 +14,9 @@ const BasketScreen=()=>{
    useEffect(()=>{
     Axios({
       method:"post",
-      url:"http://192.168.1.105:8000/fetchuserorder",
+      url:"http://192.168.29.188:8000/fetchuserorder",
       data:{
-        userId:"12"
+        userId:"1234"
       }
     }).then((res)=>{
       console.log(res.data)

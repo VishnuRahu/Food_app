@@ -80,10 +80,9 @@ function FoodList1({navigation}) {
       else{
         await Axios({
           method:"post",
-          url:"http://192.168.1.105:8000/adduserCart",
+          url:"http://192.168.29.188:8000/adduserCart",
           data:{
             userId:"12",
-            cartId:5,
             foodName:foodsordered,
             rate:rate,
             qty:qty
@@ -102,7 +101,7 @@ function FoodList1({navigation}) {
     useEffect(()=>{
         Axios({
             method:"get",
-            url:"http://192.168.1.105:8000/getfood",
+            url:"http://192.168.29.188:8000/getfood",
             }).then((res)=>{
                 setFoodData(res.data.data); 
             }).catch((error) => {

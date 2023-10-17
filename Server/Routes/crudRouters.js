@@ -34,6 +34,7 @@ router.get('/fetchalluserorder',fetchalluserorder);
 router.patch('/updateUserpayment',updateUserpayment);
 
 router.delete('/deleteUserorder',deleteUserorder)
+
 router.get('/fetchalluserorder',fetchalluserorder)
 
 router.post('/add-order',storeOrderDetails)

@@ -28,7 +28,7 @@ const fetchuserCart=async(req,res)=>{
 const adduserCart=async(req,res)=>{
     try{
         console.log(req.body.userId)
-        const result=await cartSchema.updateOne({userId:req.body.userId},{$push:{ foods: {cartId:req.body.cartId,foodName:req.body.foodName,rate:req.body.rate,quantity:req.body.qty} }})
+        const result=await cartSchema.updateOne({userId:req.body.userId},{$push:{ foods: {cartId:cryptoRandomUUID(),foodName:req.body.foodName,rate:req.body.rate,quantity:req.body.qty} }})
         console.log(result)
         if(result){
             res.json({
@@ -122,7 +122,7 @@ const updateUserpayment=async(req,res)=>{
         console.log('inside update')
         const result=await orderSchema.updateOne(
             { userId: req.body.userId, "foodsOrdered.orderId":req.body.orderId},
-            { $set: { "foodsOrdered.$.payment" : req.body.change} }
+            { $set: { "foodsOrdered.$.payment" :"Success"} }
          )
          if(result){
             res.json({
@@ -163,7 +163,6 @@ const deleteUserorder=async(req,res)=>{
 }
 
 
-module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart,fetchalluserorder,updateUserpayment,deleteUserorder}
 const storeOrderDetails = async (req,res) => {
     let items = req.body[0].foods;
 
@@ -180,4 +179,4 @@ const storeOrderDetails = async (req,res) => {
 }
 
 
-module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart,fetchalluserorder, storeOrderDetails}
+module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart,fetchalluserorder, storeOrderDetails,updateUserpayment,deleteUserorder}

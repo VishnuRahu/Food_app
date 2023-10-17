@@ -40,7 +40,8 @@ const BasketScreen=({navigation})=>{
           //  })
         }
 
-        const  updateItem=()=>{
+        const  updateItem=(orderId,id)=>{
+          console.log(orderId,id)
           Axios({
             method:"patch",
             url:"http://192.168.29.188:8000/updateUserpayment",
@@ -50,9 +51,17 @@ const BasketScreen=({navigation})=>{
             }
           }).then((res)=>{
             console.log(res.data)
-            Alert.alert("Successfully Updaed")
-            setFooddata()
+            Alert.alert("Successfully Updated")
+            Axios({
+              method:"get",
+              url:"http://192.168.29.188:8000/fetchalluserorder",
+              
+            }).then((res)=>{
+              console.log(res.data)
+              setFooddata(res.data.data);
+            })
           })
+          
         }
         
         const CardView=(props)=>{
