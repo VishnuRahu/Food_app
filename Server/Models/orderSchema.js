@@ -8,7 +8,8 @@ const orderSchema=new mongoose.Schema({
     },
     foodsOrdered:[{
         orderId:{
-            type: String
+            type: String,
+            required:true 
         },
         foodName:[String],
         rate:[Number],
