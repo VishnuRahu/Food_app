@@ -33,6 +33,9 @@ const Admin=({ navigation })=> {
    else if(name=="Delete Item"){
     navigation.navigate("DeleteItem")   
    }
+   else if(name=="Check orders"){
+    navigation.navigate("checkOrder")   
+   }
   }
 
   return (

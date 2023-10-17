@@ -11,68 +11,49 @@ const BasketScreen=({navigation})=>{
   const [Itemtotal,setItem]=useState();
 
 
-  const submitHandler = async () => {
-      let foods=[1,2]
-      if(foods.length==0){
-        Alert.alert("hey your cart is empty")
-      }
-      else{
-        console.log(fooddata)
-        Alert.alert("your order has been placed Successfully")
-        navigation.navigate("order")
-      }
-     
-  }  
-
    useEffect(()=>{
     Axios({
-      method:"post",
-      url:"http://192.168.1.176:8000/fetchuserCart",
-      data:{
-        userId:"12"
-      }
+      method:"get",
+      url:"http://192.168.1.176:8000/fetchalluserorder",
+      
     }).then((res)=>{
       console.log(res.data)
       setFooddata(res.data.data);
-      console.log('fooddate',fooddata)
+      //console.log('fooddate',fooddata)
     })
    },[])
   
     
 
-        const deleteItem=async(cart)=>{
+        const deleteItem=async(orderId,id)=>{
             //Alert.alert(cart)
-            await Axios({
-              method:"delete",
-              url:"http://192.168.1.176:8000/deleteusercart",
-              data:{
-                "userId":"12",
-                "cartId":cart
-              }
-            }).then((res)=>{
-              //console.log(res)
+            // await Axios({
+            //   method:"delete",
+            //   url:"http://192.168.1.176:8000/deleteusercart",
+            //   data:{
+            //     "userId":"12",
+            //     "cartId":cart
+            //   }
+            // }).then((res)=>{
+            //   //console.log(res)
               
-              const updatedData = fooddata.map((item) => {
-                if (item.foods) {
-                  const filteredFoods = item.foods.filter((food) => food.cartId !== cart);
-                  return { ...item, foods: filteredFoods };
-                }
-                return item;
-              });
-              setFooddata(updatedData);
+            // const updatedData = fooddata.map((item) => {
+            //     if (item.foods) {
+            //       const filteredFoods = item.foods.filter((food) => food.cartId !== cart);
+            //       return { ...item, foods: filteredFoods };
+            //     }
+            //     return item;
+            //   });
+            //   setFooddata(updatedData);
               
 
-            })
-            
+            // })
+            Alert.alert(orderId)
+            Alert.alert(id)
         }
         
         const CardView=(props)=>{
-          const { foodName, quantity, rate } = props.obj;
-
-            // Calculate the total for this item
-            const itemTotal = foodName.reduce((total, _, index) => {
-              return total + quantity[index] * rate[index];
-            }, 0);
+          
           return(
               <View style={styles.card}>
               <View style={{ flex: 1 ,flexDirection:"column"}}>
@@ -85,10 +66,12 @@ const BasketScreen=({navigation})=>{
                         </View>
                         
                       ))}
-              <Text>{'\n\n'}ItemTotal : {itemTotal}</Text>
+              <Text>{'\n\n'}ItemTotal :{props.obj.totalAmount}</Text>
+              <Text>{'\n\n'}Payment :{props.obj.payment}</Text>
               </Text>
               <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
-              <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>deleteItem(props.obj.cartId)} >Delete</Button>
+              <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>deleteItem(props.obj.orderId,props.id.userId)} >Delete</Button>
+              <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>updateItem(props.obj.orderId,props.id.userId)} >Update to Paid</Button>
               </View>
         
     </View>
@@ -107,16 +90,14 @@ const BasketScreen=({navigation})=>{
       <ScrollView  showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
           {fooddata.map((item,index) =>
           <View key={index}>
-              {item.foods.map((food,index)=>
-                      <CardView key={food.cartId} obj={food}></CardView>
+              {item.foodsOrdered.map((food,index)=>
+                      <CardView key={food.orderId} obj={food} id={item.userId}></CardView>
                   )}
           </View>
               
               )}
       </ScrollView>
-      <View style={styles.but}>
-           <Button onPress={() => submitHandler()}>Place Order</Button>
-      </View>
+      
       </View>
   );
               }

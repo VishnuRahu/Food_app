@@ -74,23 +74,29 @@ function FoodList1({navigation}) {
           }
         }
       }
-      await Axios({
-        method:"post",
-        url:"http://192.168.1.176:8000/adduserCart",
-        data:{
-          userId:"12",
-          cartId:5,
-          foodName:foodsordered,
-          rate:rate,
-          qty:qty
-        }
-      }).then((res)=>{
-        console.log(res.data)
-      })
-      //alert(JSON.stringify({ data : orderedItems}))
-      //AsyncStorage.removeItem(`${items[j].foodName}`);
-      //AsyncStorage.clear();
-      navigation.navigate("BasketScreen")
+      if(foodsordered.length===0){
+        Alert.alert("Kindly select some items")
+      }
+      else{
+        await Axios({
+          method:"post",
+          url:"http://192.168.1.176:8000/adduserCart",
+          data:{
+            userId:"12",
+            cartId:5,
+            foodName:foodsordered,
+            rate:rate,
+            qty:qty
+          }
+        }).then((res)=>{
+          console.log(res.data)
+        })
+        //alert(JSON.stringify({ data : orderedItems}))
+        //AsyncStorage.removeItem(`${items[j].foodName}`);
+        //AsyncStorage.clear();
+        navigation.navigate("BasketScreen")
+      }
+      
     }
 
     useEffect(()=>{

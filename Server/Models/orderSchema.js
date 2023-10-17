@@ -15,7 +15,7 @@ const orderSchema=new mongoose.Schema({
         quantity:[Number],
         payment:{
             type:String,
-            required:true
+            default:"pending"
         },
         totalAmount:{
             type: Number,

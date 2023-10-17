@@ -93,4 +93,28 @@ const fetchuserorder=async(req,res)=>{
     }
 }
 
-module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart}
+
+const fetchalluserorder=async(req,res)=>{
+    try{
+        console.log('inside fetch user');
+        const result=await orderSchema.find({foodsOrdered:{$elemMatch:{payment:"pending"}}})
+        console.log(result)
+        if(result){
+            res.json({
+               message:"Successful",
+               data:result  
+            })
+        }
+        else{
+            res.json({
+                message:"unsuccesfull",
+            })
+        }
+    }
+    catch(e){
+
+    }
+}
+
+
+module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart,fetchalluserorder}
