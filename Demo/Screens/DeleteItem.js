@@ -10,7 +10,7 @@ const AdminAddItem = () => {
   const handleDeleteItem = () => {
      Axios({
       method:"delete",
-      url:"http://192.168.1.176:8000/deleteItem",
+      url:"http://192.168.1.105:8000/deleteItem",
       data:{
         title:title,
         foodId:itemID,

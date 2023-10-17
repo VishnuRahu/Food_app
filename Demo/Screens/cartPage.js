@@ -18,6 +18,13 @@ const BasketScreen=({navigation})=>{
       }
       else{
         console.log(fooddata)
+        try {
+          const res = await Axios({ method:"post", url:"http://192.168.1.105:8000/add-order", data:fooddata });
+          console.log('res :', res);
+        } catch (error) {
+          console.log('error :', error);
+        }
+        
         Alert.alert("your order has been placed Successfully")
         navigation.navigate("order")
       }
@@ -27,7 +34,7 @@ const BasketScreen=({navigation})=>{
    useEffect(()=>{
     Axios({
       method:"post",
-      url:"http://192.168.1.176:8000/fetchuserCart",
+      url:"http://192.168.1.105:8000/fetchuserCart",
       data:{
         userId:"12"
       }
@@ -40,64 +47,63 @@ const BasketScreen=({navigation})=>{
   
     
 
-        const deleteItem=async(cart)=>{
-            //Alert.alert(cart)
-            await Axios({
-              method:"delete",
-              url:"http://192.168.1.176:8000/deleteusercart",
-              data:{
-                "userId":"12",
-                "cartId":cart
-              }
-            }).then((res)=>{
-              //console.log(res)
-              
-              const updatedData = fooddata.map((item) => {
-                if (item.foods) {
-                  const filteredFoods = item.foods.filter((food) => food.cartId !== cart);
-                  return { ...item, foods: filteredFoods };
-                }
-                return item;
-              });
-              setFooddata(updatedData);
-              
-
-            })
-            
-        }
-        
-        const CardView=(props)=>{
-          const { foodName, quantity, rate } = props.obj;
-
-            // Calculate the total for this item
-            const itemTotal = foodName.reduce((total, _, index) => {
-              return total + quantity[index] * rate[index];
-            }, 0);
-          return(
-              <View style={styles.card}>
-              <View style={{ flex: 1 ,flexDirection:"column"}}>
-              <View style={{ flex: 0.3, fontSize: 18, fontWeight: '600', flexDirection: 'column' }}>
-              <Text style={{ fontSize: 18, fontWeight: '600' }}>
-              {props.obj.foodName.map((foodName, index) => (
-                        <View key={index}>
-                            <Text key={index}>{foodName}: {props.obj.quantity[index]} x {props.obj.rate[index]} = {props.obj.quantity[index] *props.obj.rate[index]}</Text>
-                            <Text>{"\n"}</Text>
-                        </View>
-                        
-                      ))}
-              <Text>{'\n\n'}ItemTotal : {itemTotal}</Text>
-              </Text>
-              <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
-              <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>deleteItem(props.obj.cartId)} >Delete</Button>
-              </View>
-        
-    </View>
-              
-              
-              </View>
-              </View>
-          );
+const deleteItem=async(cart)=>{
+    //Alert.alert(cart)
+    await Axios({
+      method:"delete",
+      url:"http://192.168.1.105:8000/deleteusercart",
+      data:{
+        "userId":"12",
+        "cartId":cart
       }
+    }).then((res)=>{
+      //console.log(res)
+      
+      const updatedData = fooddata.map((item) => {
+        if (item.foods) {
+          const filteredFoods = item.foods.filter((food) => food.cartId !== cart);
+          return { ...item, foods: filteredFoods };
+        }
+        return item;
+      });
+      setFooddata(updatedData);
+      
+
+    })
+    
+}
+    
+const CardView=(props)=>{
+  const { foodName, quantity, rate } = props.obj;
+
+  // Calculate the total for this item
+  const itemTotal = foodName.reduce((total, _, index) => {
+    return total + quantity[index] * rate[index];
+  }, 0);
+
+  return(
+    <View style={styles.card}>
+      <View style={{ flex: 1 ,flexDirection:"column"}}>
+        <View style={{ flex: 0.3, fontSize: 18, fontWeight: '600', flexDirection: 'column' }}>
+
+          <Text style={{ fontSize: 18, fontWeight: '600' }}>
+            {props.obj.foodName.map((foodName, index) => (
+              <View key={index}>
+                  <Text key={index}>{foodName}: {props.obj.quantity[index]} x {props.obj.rate[index]} = {props.obj.quantity[index] *props.obj.rate[index]}</Text>
+                  <Text>{"\n"}</Text>
+              </View> 
+            ))}
+            <Text>{'\n\n'}ItemTotal : {itemTotal}</Text>
+          </Text>
+
+          <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
+            <Button style={{ padding: 7, fontSize: 18, fontWeight: 'bold', color: 'black' }} onPress={() =>deleteItem(props.obj.cartId)} >Delete</Button>
+          </View>
+        </View> 
+      </View>
+    </View>
+  );
+}
 
 
 
@@ -108,7 +114,7 @@ const BasketScreen=({navigation})=>{
           {fooddata.map((item,index) =>
           <View key={index}>
               {item.foods.map((food,index)=>
-                      <CardView key={food.cartId} obj={food}></CardView>
+                      <CardView key={index} obj={food}></CardView>
                   )}
           </View>
               

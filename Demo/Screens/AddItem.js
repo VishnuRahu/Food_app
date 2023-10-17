@@ -12,7 +12,7 @@ const AdminAddItem = () => {
   const handleAddItem = () => {
      Axios({
       method:"post",
-      url:"http://192.168.1.176:8000/addItem",
+      url:"http://192.168.1.105:8000/addItem",
       data:{
         foodId:itemID,
         title:title,

@@ -1,5 +1,6 @@
 const cartSchema=require('../Models/cartSchema')
 const orderSchema=require('../Models/orderSchema');
+const cryptoRandomUUID = require('crypto-randomuuid');
 
 const fetchuserCart=async(req,res)=>{
     try{
@@ -116,5 +117,20 @@ const fetchalluserorder=async(req,res)=>{
     }
 }
 
+const storeOrderDetails = async (req,res) => {
+    let items = req.body[0].foods;
 
-module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart,fetchalluserorder}
+    for(let i = 0; i < items.length; i++){
+        items[i]["orderId"] = cryptoRandomUUID();
+        items[i]["totalAmount"] = items[i].rate.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    }
+
+    await orderSchema.create({
+        userId:"1234",
+        foodsOrdered:items,
+    })
+    return res.json({ success: true });
+}
+
+
+module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart,fetchalluserorder, storeOrderDetails}

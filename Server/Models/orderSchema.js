@@ -1,4 +1,5 @@
 const mongoose=require('mongoose');
+
 const orderSchema=new mongoose.Schema({
     
     userId:{
@@ -7,8 +8,7 @@ const orderSchema=new mongoose.Schema({
     },
     foodsOrdered:[{
         orderId:{
-            type:Number,
-            required:true 
+            type: String
         },
         foodName:[String],
         rate:[Number],
@@ -24,4 +24,5 @@ const orderSchema=new mongoose.Schema({
     }],
     
 })
-module.exports=new mongoose.model('orders',orderSchema);
+
+module.exports= new mongoose.model('orders',orderSchema);

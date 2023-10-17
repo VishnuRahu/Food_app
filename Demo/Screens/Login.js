@@ -12,7 +12,7 @@ const Login=({navigation})=> {
   const handleSubmit=()=>{
     Axios({
       method:"post",
-      url:"http://192.168.1.176:8000/login",
+      url:"http://192.168.1.105:8000/login",
       data:{
         email:email,
         password:password

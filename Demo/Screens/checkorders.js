@@ -14,7 +14,7 @@ const BasketScreen=({navigation})=>{
    useEffect(()=>{
     Axios({
       method:"get",
-      url:"http://192.168.1.176:8000/fetchalluserorder",
+      url:"http://192.168.1.105:8000/fetchalluserorder",
       
     }).then((res)=>{
       console.log(res.data)
