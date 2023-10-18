@@ -24,7 +24,7 @@ const Login=({navigation})=> {
           navigation.navigate("Admin");
          } 
          else if(res.data=='Successfull'){
-          navigation.navigate("Food");
+          navigation.navigate("Food",{email});
          }
          
       }).catch((error) => {

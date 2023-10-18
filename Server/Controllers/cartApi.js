@@ -28,8 +28,26 @@ const fetchuserCart=async(req,res)=>{
 const adduserCart=async(req,res)=>{
     try{
         console.log(req.body.userId)
-        const result=await cartSchema.updateOne({userId:req.body.userId},{$push:{ foods: {cartId:cryptoRandomUUID(),foodName:req.body.foodName,rate:req.body.rate,quantity:req.body.qty} }})
-        console.log(result)
+        let id=cryptoRandomUUID();
+        let result;
+        const fetch=await cartSchema.findOne({userId:req.body.userId})
+        if(!fetch){
+            console.log('not fetched')
+            const data=new cartSchema({
+                userId:req.body.userId,
+                foods:[{
+                    cartId:id,
+                    foodName:req.body.foodName,
+                    rate:req.body.rate,
+                    quantity:req.body.qty}]
+                })
+            result=await data.save()
+            console.log(result)
+        }
+        else{
+            result=await cartSchema.updateOne({userId:req.body.userId},{$push:{ foods: {cartId:id,foodName:req.body.foodName,rate:req.body.rate,quantity:req.body.qty} }})
+            console.log(result)
+        }
         if(result){
             res.json({
                message:"Successful",
@@ -98,7 +116,7 @@ const fetchuserorder=async(req,res)=>{
 const fetchalluserorder=async(req,res)=>{
     try{
         console.log('inside fetch user');
-        const result=await orderSchema.find({foodsOrdered:{$elemMatch:{payment:"pending"}}})
+        const result=await orderSchema.find({ 'foodsOrdered.payment': 'pending' })
         console.log(result)
         if(result){
             res.json({
@@ -142,11 +160,30 @@ const updateUserpayment=async(req,res)=>{
 
 const deleteUserorder=async(req,res)=>{
     try{
-        console.log('inside dalete')
+        console.log('inside delete')
         const result=await orderSchema.updateOne(
             { userId: req.body.userId},
             { $pull: { foodsOrdered:{orderId : req.body.orderId} }}
          )
+         if(result){
+            res.json({
+                message:"Success"
+            })
+         }
+        else{
+            res.json({
+                message:"failure"
+            })
+        }
+    }catch(e){
+
+    }
+}
+
+const deleteuserfromcart=async(req,res)=>{
+    try{
+        const result=await cartSchema.deleteOne(
+            { userId: req.body.userId})
          if(result){
             res.json({
                 message:"Success"
@@ -172,11 +209,11 @@ const storeOrderDetails = async (req,res) => {
     }
 
     await orderSchema.create({
-        userId:"1234",
+        userId:req.body[0].userId,
         foodsOrdered:items,
     })
     return res.json({ success: true });
 }
 
 
-module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart,fetchalluserorder, storeOrderDetails,updateUserpayment,deleteUserorder}
+module.exports={fetchuserCart,deletecart,fetchuserorder,adduserCart,fetchalluserorder, storeOrderDetails,updateUserpayment,deleteUserorder,deleteuserfromcart}

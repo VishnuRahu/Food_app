@@ -5,18 +5,44 @@ import Axios from 'axios';
 import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHighlight,Image,Alert} from 'react-native';
 
   
-const BasketScreen=()=>{
+const BasketScreen=({route})=>{
 
+  const userId=route.params.userId;
   const [fooddata,setFooddata]=useState([]);
   const [Itemtotal,setItem]=useState();
 
-
+  const deleteItem=async(orderId,id)=>{
+    //Alert.alert(cart)
+    console.log(orderId,id)
+    await Axios({
+      method:"delete",
+      url:"http://192.168.29.188:8000/deleteUserorder",
+      data:{
+        "userId":id,
+        "orderId":orderId
+      }
+    }).then((res)=>{
+      console.log(res)
+      Alert.alert("User Id deleted Successfully")
+      Axios({
+        method:"get",
+        url:"http://192.168.29.188:8000/fetchuserorder",
+        data:{
+          userId:userId
+        }
+    }).then((res)=>{
+      console.log(res.data)
+      setFooddata(res.data.data);
+    })
+  })
+   
+}
    useEffect(()=>{
     Axios({
       method:"post",
       url:"http://192.168.29.188:8000/fetchuserorder",
       data:{
-        userId:"1234"
+        userId:userId
       }
     }).then((res)=>{
       console.log(res.data)
@@ -29,21 +55,27 @@ const BasketScreen=()=>{
         
         
         const CardView=(props)=>{
-          
+          const id=props.id
           return(
+      
               <View style={styles.card}>
               <View style={{ flex: 1 ,flexDirection:"column"}}>
-              <View style={{ flex: 0.3, fontSize: 18, fontWeight: '600', flexDirection: 'column' }}>
+              <View style={{ flex: 0.3, fontSize: 18, fontWeight: '60', flexDirection: 'column' }}>
+              <Text style={{fontSize:25,textAlign:"center"}}>Order Id : {props.obj.orderId}{'\n'}</Text>
               <Text style={{ fontSize: 18, fontWeight: '600' }}>
               {props.obj.foodName.map((foodName, index) => (
                         <View key={index}>
-                            <Text key={index}>{foodName}: {props.obj.qty[index]} x {props.obj.rate[index]} = {props.obj.qty[index] *props.obj.rate[index]}</Text>
+                            <Text key={index}>{foodName}: {props.obj.quantity[index]} x {props.obj.rate[index]} = {props.obj.quantity[index] *props.obj.rate[index]}</Text>
+                            <Text>{"\n"}</Text>
                         </View>
+                        
                       ))}
-              <Text>ItemTotal:{props.obj.totalAmount}</Text>
-              <Text>Payment:{props.obj.payment}</Text>
+              <Text>{'\n'}ItemTotal :{props.obj.totalAmount}</Text>
+              <Text>{'\n\n'}Payment :{props.obj.payment}</Text>
+              <Text>{'\n\n'}</Text>
               </Text>
               <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
+              <Button style={{  fontSize: 18, fontWeight: 'bold',backgroundColor:'red',width:"40%",height:"60%",margin:"5%" }} onPress={() =>deleteItem(props.obj.orderId,id)} >Cancel order</Button>
               </View>
         
     </View>
@@ -62,9 +94,8 @@ const BasketScreen=()=>{
       <ScrollView  showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
           {fooddata.map((item,index) =>
           <View key={index}>
-              <Text key={index}>{item.userId}</Text>
               {item.foodsOrdered.map((food,index)=>
-                      <CardView key={food.orderId} obj={food}></CardView>
+                      <CardView key={food.orderId} obj={food} id={item.userId}></CardView>
                   )}
           </View>
               

@@ -14,7 +14,7 @@ const BasketScreen=({navigation})=>{
    useEffect(()=>{
     Axios({
       method:"get",
-      url:"http://192.168.29.188:8000/fetchalluserorder",
+      url:"http://192.168.1.176:8000/fetchalluserorder",
       
     }).then((res)=>{
       console.log(res.data)
@@ -28,23 +28,33 @@ const BasketScreen=({navigation})=>{
         const deleteItem=async(orderId,id)=>{
             //Alert.alert(cart)
             console.log(orderId,id)
-          //   await Axios({
-          //     method:"delete",
-          //     url:"http://192.168.1.176:8000/deleteUserorder",
-          //     data:{
-          //       "userId":"12",
-          //       "orderId":""
-          //     }
-          //   }).then((res)=>{
-          //     console.log(res)
-          //  })
+            await Axios({
+              method:"delete",
+              url:"http://192.168.1.176:8000/deleteUserorder",
+              data:{
+                "userId":id,
+                "orderId":orderId
+              }
+            }).then((res)=>{
+              console.log(res)
+              Alert.alert("User Id deleted Successfully")
+              Axios({
+                method:"get",
+                url:"http://192.168.1.176:8000/fetchalluserorder",
+              
+            }).then((res)=>{
+              console.log(res.data)
+              setFooddata(res.data.data);
+            })
+          })
+           
         }
 
         const  updateItem=(orderId,id)=>{
           console.log(orderId,id)
           Axios({
             method:"patch",
-            url:"http://192.168.29.188:8000/updateUserpayment",
+            url:"http://192.168.1.176:8000/updateUserpayment",
             data:{
                userId:id,
                orderId:orderId
@@ -54,7 +64,7 @@ const BasketScreen=({navigation})=>{
             Alert.alert("Successfully Updated")
             Axios({
               method:"get",
-              url:"http://192.168.29.188:8000/fetchalluserorder",
+              url:"http://192.168.1.176:8000/fetchalluserorder",
               
             }).then((res)=>{
               console.log(res.data)

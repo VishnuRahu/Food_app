@@ -43,8 +43,8 @@ const Food = ({ item }) => {
     );
   }
 
-function FoodList1({navigation}) {
-
+function FoodList1({navigation,route}) {
+    const userId=route.params.email
     const [foodData, setFoodData] = useState([]);
 
     const submitHandler = async () => {
@@ -82,18 +82,19 @@ function FoodList1({navigation}) {
           method:"post",
           url:"http://192.168.29.188:8000/adduserCart",
           data:{
-            userId:"12",
+            userId:userId,
             foodName:foodsordered,
             rate:rate,
             qty:qty
           }
         }).then((res)=>{
-          console.log(res.data)
+          console.log(res.data);
+          navigation.navigate("BasketScreen",{userId})
         })
         //alert(JSON.stringify({ data : orderedItems}))
         //AsyncStorage.removeItem(`${items[j].foodName}`);
         //AsyncStorage.clear();
-        navigation.navigate("BasketScreen")
+       
       }
       
     }

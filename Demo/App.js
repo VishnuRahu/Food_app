@@ -11,6 +11,7 @@ import BasketScreen from './Screens/cartPage';
 import DeleteItem from './Screens/DeleteItem';
 import orderPage from './Screens/orderPage';
 import checkOrder from './Screens/checkorders';
+import afterLogin from './Screens/afterLogin';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
@@ -32,6 +33,7 @@ export default function App() {
         <Stack.Screen name="DeleteItem" component={DeleteItem} />
         <Stack.Screen name="order" component={orderPage} />
         <Stack.Screen name="checkOrder" component={checkOrder} />
+        <Stack.Screen name="afterLogin" component={afterLogin} />
       </Stack.Navigator>
     </NavigationContainer>
   );

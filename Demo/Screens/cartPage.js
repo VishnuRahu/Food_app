@@ -5,8 +5,8 @@ import Axios from 'axios';
 import { View,Text,StyleSheet,SafeAreaView, StatusBar, ScrollView, TouchableHighlight,Image,Alert} from 'react-native';
 
   
-const BasketScreen=({navigation})=>{
-
+const BasketScreen=({navigation,route})=>{
+  const userId=route.params.userId;
   const [fooddata,setFooddata]=useState([]);
   const [Itemtotal,setItem]=useState();
 
@@ -24,9 +24,17 @@ const BasketScreen=({navigation})=>{
         } catch (error) {
           console.log('error :', error);
         }
-        
         Alert.alert("your order has been placed Successfully")
-        navigation.navigate("order")
+        await Axios({
+          method:"delete",
+          url:"http://192.168.29.188:8000/deleteuserfromcart",
+          data:{
+            userId:userId
+          }
+        }).then((res)=>{
+          console.log(res)
+        })
+        navigation.navigate("order",{userId})
       }
      
   }  
@@ -36,7 +44,7 @@ const BasketScreen=({navigation})=>{
       method:"post",
       url:"http://192.168.29.188:8000/fetchuserCart",
       data:{
-        userId:"12"
+        userId:userId
       }
     }).then((res)=>{
       console.log(res.data)
@@ -53,7 +61,7 @@ const deleteItem=async(cart)=>{
       method:"delete",
       url:"http://192.168.29.188:8000/deleteusercart",
       data:{
-        "userId":"12",
+        "userId":userId,
         "cartId":cart
       }
     }).then((res)=>{
@@ -93,7 +101,7 @@ const CardView=(props)=>{
                   <Text>{"\n"}</Text>
               </View> 
             ))}
-            <Text>{'\n\n'}ItemTotal : {itemTotal}</Text>
+            <Text>{'\n'}ItemTotal : {itemTotal}</Text>
           </Text>
 
           <View style={{ flex: 0.3, flexDirection: 'row', justifyContent: 'space-around', borderRadius: 10 }}>
